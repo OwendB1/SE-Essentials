@@ -3,7 +3,9 @@ using System.IO;
 using System.Reflection;
 using System.Threading;
 using HarmonyLib;
+using PluginSdk;
 using PluginSdk.Commands;
+using ServerPlugin.AutoCommands;
 using ServerPlugin.Commands;
 using Shared.Config;
 using Shared.Logging;
@@ -31,6 +33,9 @@ public class Plugin : IPlugin, ICommonPlugin
     private PersistentConfig<PluginConfig> config;
     private static readonly string ConfigFileName = $"{Name}.cfg";
 
+    // Timed/triggered server command sequences. Null until Init has run.
+    public AutoCommandExecutor AutoCommands { get; private set; }
+
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]
     public void Init(object gameInstance)
     {
@@ -53,6 +58,9 @@ public class Plugin : IPlugin, ICommonPlugin
             Assembly.GetExecutingAssembly(),
             typeof(EssentialsModule));
 
+        AutoCommands = new AutoCommandExecutor(config.Data, Log);
+        ServerControl.Terminating += OnTerminating;
+
         if (!PatchHelpers.HarmonyPatchAll(Log, new Harmony(Name)))
         {
             failed = true;
@@ -66,7 +74,7 @@ public class Plugin : IPlugin, ICommonPlugin
     {
         try
         {
-            // TODO: Save state and close resources here, called when the game exists (not guaranteed!)
+            ServerControl.Terminating -= OnTerminating;
             // IMPORTANT: Do NOT call harmony.UnpatchAll() here! It may break other plugins.
         }
         catch (Exception ex)
@@ -75,6 +83,13 @@ public class Plugin : IPlugin, ICommonPlugin
         }
 
         Instance = null;
+    }
+
+    private void OnTerminating(ServerTerminationKind kind)
+    {
+        // The countdown/warning sequences run from the !ess restart / !ess stop commands.
+        // This only observes admin-driven termination (e.g. the host's own commands) for the log.
+        Log.Info("Server {0} requested by admin", kind);
     }
 
     public void Update()
@@ -101,7 +116,7 @@ public class Plugin : IPlugin, ICommonPlugin
 
     private void CustomUpdate()
     {
-        // TODO: Put your update code here. It is called on every simulation frame!
         PatchHelpers.PatchUpdates();
+        AutoCommands?.Update();
     }
 }

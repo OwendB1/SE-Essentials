@@ -9,6 +9,7 @@
     <Import_RootNamespace>Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Config\AutoCommandConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Config\IPluginConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Config\PersistentConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Config\PluginConfig.cs" />

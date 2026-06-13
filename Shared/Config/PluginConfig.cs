@@ -1,5 +1,6 @@
 #if !TORCH
 
+using System.Collections.Generic;
 using PluginSdk.Config;
 
 namespace Shared.Config;
@@ -9,6 +10,7 @@ namespace Shared.Config;
 [Tab("cleanup", caption: "Cleanup")]
 [Tab("pcu", caption: "PCU Tools")]
 [Tab("shipfixer", caption: "Ship Fixer")]
+[Tab("autocmd", caption: "Auto Commands")]
 [Section("core", "general", "Core")]
 [Section("grid", "general", "Grid Utilities")]
 [Section("motd-main", "motd", "Messages")]
@@ -16,6 +18,8 @@ namespace Shared.Config;
 [Section("cleanup-bags", "cleanup", "Backpacks")]
 [Section("pcu-core", "pcu", "Limits")]
 [Section("shipfixer-core", "shipfixer", "Core")]
+[Section("autocmd-list", "autocmd", "Auto Commands")]
+[Section("autocmd-lifecycle", "autocmd", "Restart / Shutdown Sequences")]
 public class PluginConfig : PluginSdk.Config.PluginConfig, IPluginConfig
 {
     [BoolOption("Enable Essentials plugin runtime.", Parent = "core")]
@@ -74,6 +78,20 @@ public class PluginConfig : PluginSdk.Config.PluginConfig, IPluginConfig
 
     [BoolOption("Process fixship grids in parallel.", Parent = "shipfixer-core")]
     public bool ShipFixerInParallel { get; set => SetField(ref field, value); } = true;
+
+    [StructOption("Timed, scheduled and triggered server command sequences. Empty by default.", Parent = "autocmd-list")]
+    public List<AutoCommand> AutoCommands { get; set => SetField(ref field, value); } = new();
+
+    [StringOption(description: "Name of the auto command run as the countdown when an admin issues !ess restart. " +
+                              "Empty restarts immediately.", Parent = "autocmd-lifecycle")]
+    public string OnRestartSequence { get; set => SetField(ref field, value); } = "";
+
+    [StringOption(description: "Name of the auto command run as the countdown when an admin issues !ess stop. " +
+                              "Empty stops immediately.", Parent = "autocmd-lifecycle")]
+    public string OnShutdownSequence { get; set => SetField(ref field, value); } = "";
+
+    [IntOption(5, 3600, "Duration in seconds of a player vote started with !ess vote.", Parent = "autocmd-lifecycle")]
+    public int VoteDurationSeconds { get; set => SetField(ref field, value); } = 60;
 }
 
 #endif
