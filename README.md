@@ -1,6 +1,22 @@
 # Essentials
 
-Essentials is a Space Engineers dedicated server plugin for Magnetar.
+Essentials is a Space Engineers dedicated server plugin for Magnetar. It bundles
+common quality-of-life server behaviour, configured through the Magnetar
+`PluginSdk` with the UI rendered by Quasar from the generated schema.
+
+## Features
+
+- **Auto commands** — timed, scheduled and triggered server command sequences:
+  restart/shutdown countdowns, cleanup passes, MOTD reminders, player votes, and
+  shell-script hooks. See [Docs/AutoCommands.md](Docs/AutoCommands.md).
+- **Server control** — save, reload config, restart and stop, with `!ess` chat
+  commands and warning sequences.
+- **MOTD** — connect messages and a Steam-overlay URL, with first-time variants.
+- **Ship fixer** — cut/paste a grid to clear physics issues, with cooldowns.
+- **Blocks, economy, PCU/ownership transfer, cleanup** utilities.
+
+See [Docs/](Docs/README.md) for the full documentation and the
+[chat command reference](Docs/Commands.md).
 
 ## Prerequisites
 
@@ -24,10 +40,18 @@ Essentials is a Space Engineers dedicated server plugin for Magnetar.
 - `Shared` contains common plugin code, configuration, logging, and Harmony patches.
 - `Essentials.xml` is the MagnetarHub plugin registration template.
 
+## Documentation
+
+- [Documentation index](Docs/README.md)
+- [Auto Commands](Docs/AutoCommands.md) — scheduled/triggered command sequences
+- [Chat Commands](Docs/Commands.md) — the full `!ess` command reference
+
 ## Configuration
 
 Server configuration lives in `Shared/Config` and uses Magnetar `PluginSdk`.
-The `PluginConfig` defaults are applied by the dedicated server plugin.
+The `PluginConfig` defaults are applied by the dedicated server plugin, and the
+editor UI is rendered by Quasar from the generated schema. See the
+[documentation index](Docs/README.md) for a tab-by-tab overview.
 
 ## Compatibility
 
