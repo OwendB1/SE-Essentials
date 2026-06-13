@@ -1,5 +1,3 @@
-#if !TORCH
-
 using System.Collections.Generic;
 using PluginSdk.Config;
 
@@ -93,5 +91,3 @@ public class PluginConfig : PluginSdk.Config.PluginConfig, IPluginConfig
     [IntOption(5, 3600, "Duration in seconds of a player vote started with !ess vote.", Parent = "autocmd-lifecycle")]
     public int VoteDurationSeconds { get; set => SetField(ref field, value); } = 60;
 }
-
-#endif

@@ -1,5 +1,3 @@
-#if !TORCH
-
 using System.Collections.Generic;
 using PluginSdk.Config;
 
@@ -163,5 +161,3 @@ public struct AutoCommand
     [StructMember("Steps run in order when the command starts.")]
     public List<CommandStep> Steps { get; set; }
 }
-
-#endif
