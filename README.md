@@ -34,6 +34,26 @@ See [Docs/](Docs/README.md) for the full documentation and the
 4. Build `Essentials.sln` in `Release`.
 5. Deploy the server plugin through Magnetar.
 
+### Plugin version
+
+The plugin version lives in `Version.Build.props`, which **is** committed and imported by
+`Directory.Build.props`. Keeping the version separate from the local path overrides means it
+is shared by all contributors and stays under version control. Bump the version there.
+
+### Folder path overrides
+
+`Directory.Build.props.template` is a template for `Directory.Build.props`. The latter is a
+local config file you can use to override the reference folder paths (`Magnetar` for the
+plugin loader and `Dedicated64` for the Dedicated Server). It is **not committed** to the
+repository, so each contributor keeps their own local paths.
+
+`setup.py` copies `Directory.Build.props.template` to `Directory.Build.props` if the latter
+does not exist yet, then fills in the auto-detected paths. Because the override is not
+committed, anyone else who clones the repo and runs `setup.py` gets their own
+`Directory.Build.props` with paths properly auto-detected for their machine. Leaving a path
+empty in `Directory.Build.props` falls back to the platform-specific auto-detection further
+down in the same file (Windows and Linux), so the build works on both operating systems.
+
 ## Project Layout
 
 - `ServerPlugin` contains the Magnetar plugin entry point and deployment scripts.
@@ -57,7 +77,6 @@ editor UI is rendered by Quasar from the generated schema. See the
 
 Use the `EnsureCode` attribute on Harmony patch methods to safely skip loading the plugin when patched game code changes after a Space Engineers update.
 The logged hash can be copied back into the attribute after validating a new game version.
-Set `SE_PLUGIN_DISABLE_METHOD_VERIFICATION` to any value on the server host to disable method verification.
 
 ## Publishing
 
