@@ -38,6 +38,14 @@ public class Plugin : IPlugin, ICommonPlugin
     private static readonly IPluginLogger Logger = new PluginLogger(Name);
 
     public IPluginConfig Config => config?.Data;
+
+    // Discovered by the Quasar agent, which scans public instance properties for the first
+    // whose declared type is assignable to PluginSdk.Config.PluginConfig. The Config property
+    // above is typed as the IPluginConfig interface (required by ICommonPlugin) and is NOT
+    // assignable to PluginSdk's PluginConfig, so it is skipped. This concrete-typed property
+    // makes the config visible; the "PluginConfig" name also gives it priority.
+    public PluginConfig PluginConfig => config?.Data;
+
     private PersistentConfig<PluginConfig> config;
     private static readonly string ConfigFileName = $"{Name}.cfg";
 

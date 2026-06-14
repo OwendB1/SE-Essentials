@@ -23,16 +23,13 @@ public class PluginConfig : PluginSdk.Config.PluginConfig, IPluginConfig
     [BoolOption("Enable Essentials plugin runtime.", Parent = "core")]
     public bool Enabled { get; set => SetField(ref field, value); } = true;
 
-    [BoolOption("Verify patched game methods before applying Harmony patches.", Parent = "core")]
-    public bool DetectCodeChanges { get; set => SetField(ref field, value); } = true;
-
     [BoolOption("Cut mods and block limits from matchmaking server info.", Parent = "core")]
     public bool CutGameTags { get; set => SetField(ref field, value); }
 
-    [StringOption(description: "Message displayed to players when they connect.", Parent = "motd-main")]
+    [StringOption(description: "Message displayed to players when they connect.", Multiline = true, Parent = "motd-main")]
     public string Motd { get; set => SetField(ref field, value); } = "";
 
-    [StringOption(description: "Message displayed only to first-time players.", Parent = "motd-main")]
+    [StringOption(description: "Message displayed only to first-time players.", Multiline = true, Parent = "motd-main")]
     public string NewUserMotd { get; set => SetField(ref field, value); } = "";
 
     [StringOption(description: "URL opened in the Steam overlay on player connect.", Parent = "motd-url")]
@@ -51,7 +48,7 @@ public class PluginConfig : PluginSdk.Config.PluginConfig, IPluginConfig
     public bool MarkerShowPosition { get; set => SetField(ref field, value); }
 
     [IntOption(-1, int.MaxValue, "Maximum empty backpacks per player. Set -1 for no limit.", Parent = "cleanup-bags")]
-    public int BackpackLimit { get; set => SetField(ref field, value); } = 1;
+    public int BackpackLimit { get; set => SetField(ref field, value); } = 3;
 
     [BoolOption("Use BlockLimits Plugin when validating PCU transfer limits. Ignored when BlockLimits is detected and enabled.", Parent = "pcu-core")]
     public bool UseBlockLimitsPlugin { get; set => SetField(ref field, value); }

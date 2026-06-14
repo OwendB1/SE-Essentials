@@ -5,7 +5,6 @@ namespace Shared.Config;
 public interface IPluginConfig : INotifyPropertyChanged
 {
     bool Enabled { get; set; }
-    bool DetectCodeChanges { get; set; }
 
     string Motd { get; set; }
     string NewUserMotd { get; set; }
