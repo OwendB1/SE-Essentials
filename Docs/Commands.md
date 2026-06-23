@@ -59,6 +59,39 @@ Toggle or remove functional blocks across all (non-projected) grids. Block
 | `!ess blocks on general <category>` | Admin | Enable a category: `Power`, `Production`, `Weapons`. |
 | `!ess blocks off general <category>` | Admin | Disable a category: `Power`, `Production`, `Weapons`. |
 
+## Cleanup & world maintenance
+
+Destructive cleanup and world-maintenance commands require running the same
+command again within 30 seconds to confirm. Cleanup grid commands evaluate
+logical grid groups and skip piloted grids unless `haspilot` is included.
+
+Cleanup conditions include: `name <regex>`, `blockslessthan <count>`,
+`blocksgreaterthan <count>`, `pcugreaterthan <pcu>`, `pculessthan <pcu>`,
+`hasgridtype <large|small|ship|static>`, `hasownertype <npc|player|nobody>`,
+`haspower` / `nopower`, `insideplanet`, `playerdistancelessthan <meters>` /
+`playerdistancegreaterthan <meters>`, `poweredgriddistancegreaterthan <meters>`,
+`centerdistancelessthan <meters>` / `centerdistancegreaterthan <meters>`,
+`ownedby <player|identityId|steamId|nobody|npc|pirates>`, `hastype <type>` /
+`notype <type>`, `hastype-fast <type[,type...]>` /
+`notype-fast <type[,type...]>`, `hassubtype <subtype>` /
+`nosubtype <subtype>`, `hassubtype-fast <subtype[,subtype...]>` /
+`nosubtype-fast <subtype[,subtype...]>`, and `haspilot`.
+
+| Command | Permission | Description |
+|---|---|---|
+| `!ess cleanup scan [conditions...]` | Admin | Count grids matching cleanup conditions. |
+| `!ess cleanup list [conditions...]` | Admin | List matching grids with block count, PCU and entity id. |
+| `!ess cleanup delete [conditions...]` | Admin | Delete matching grids after confirmation. |
+| `!ess cleanup delete floatingobjects` | Admin | Delete all floating objects after confirmation. |
+| `!ess cleanup help` | Admin | List cleanup conditions. |
+| `!ess identity clean <days> [includeNpcs]` | SpaceMaster | Remove old identities and preserve/reassign their grids. `includeNpcs` defaults to `false`. |
+| `!ess identity purge <days> [includeNpcs]` | SpaceMaster | Remove old identities and close grids solely owned by them. `includeNpcs` defaults to `false`. |
+| `!ess identity clear <player>` | Admin | Remove one identity and close grids solely owned by it. |
+| `!ess faction clean [memberCount]` | Admin | Remove factions with fewer than `memberCount` valid members (default `1`). |
+| `!ess faction remove <tag>` | Admin | Remove a faction by tag. |
+| `!ess faction info [tag]` | Admin | List factions and their members. |
+| `!ess sandbox clean` | SpaceMaster | Clean stale identities, factions, GPS/camera/procedural data and block ownership. |
+
 ## Economy
 
 `<player>` is a player name or identity id. `*` affects all players. `onlyOnline`
