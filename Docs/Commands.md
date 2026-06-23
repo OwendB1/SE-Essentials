@@ -108,6 +108,21 @@ Cleanup conditions include: `name <regex>`, `blockslessthan <count>`,
 | `!ess faction info [tag]` | Admin | List factions and their members. |
 | `!ess sandbox clean` | SpaceMaster | Clean stale identities, factions, GPS/camera/procedural data and block ownership. |
 
+## Voxels
+
+Voxel reset commands restore storage from the original data provider. Destructive
+commands require running the same command again within 30 seconds to confirm.
+
+| Command | Permission | Description |
+|---|---|---|
+| `!ess voxels reset all` | Admin | Reset all voxel maps and planets. |
+| `!ess voxels cleanup asteroids` | Admin | Reset asteroid voxel maps with no grid or character nearby. |
+| `!ess voxels cleanup distant [distance]` | Admin | Reset asteroid voxel maps with no grid or character within `distance` meters (default `1000`). |
+| `!ess voxels reset planets` | Admin | Reset all planets. |
+| `!ess voxels reset planet <planetName>` | Admin | Reset one planet matched by storage name. |
+| `!ess voxels reset area <radius>` | Admin | Reset voxel damage within `radius` meters of the caller. |
+| `!ess voxels reset gps <x> <y> <z> <radius>` | Admin | Reset voxel damage within `radius` meters of a GPS point. |
+
 ## Entities & grids
 
 Find, stop, delete and power-toggle entities, plus common grid administration.

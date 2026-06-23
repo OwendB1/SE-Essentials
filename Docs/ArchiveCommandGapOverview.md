@@ -18,7 +18,7 @@ Counts from the scan:
 
 | Source | Commands |
 |---|---:|
-| Current Essentials | 72 |
+| Current Essentials | 79 |
 | Archived essentials-torch | 102 |
 | Archived CrunchUtils | 83 |
 
@@ -38,6 +38,7 @@ Current Essentials covers these old Essentials/Torch command families:
 | `identity clean`, `identity purge`, `identity clear`, `faction clean`, `faction remove`, `faction info`, `sandbox clean` | essentials-torch `WorldModule` | Reimplemented under `!ess`; identity cleanup defaults to excluding NPC identities unless `includeNpcs` is `true`. |
 | `entities find`, `entities stop`, `entities delete`, `entities poweroff`, `entities poweron`, `entities eject`, `grids list`, `grids ejectall`, `grids stopall`, `grids static large` | essentials-torch `EntityModule`, `GridModule` | Reimplemented under `!ess`; delete/static commands require repeat-to-confirm. |
 | `stats`, `playerlist`, `mute`, `unmute`, `list mute`, `motd` | essentials-torch `AdminModule`, `PlayerModule` | Reimplemented under `!ess`; MOTD uses Plugin SDK mission screens with chat fallback. |
+| `voxels reset all`, `voxels cleanup asteroids`, `voxels cleanup distant`, `voxels reset planets`, `voxels reset planet`, `voxels reset area`, `voxels reset gps` | essentials-torch `VoxelModule` | Reimplemented under `!ess`; destructive commands require repeat-to-confirm and reset storage instead of deleting voxel storage. |
 | `msg`, `whis` | CrunchUtils `Commands` | Reimplemented under `!ess` as private-message aliases for online players. |
 | `broadcast` | CrunchUtils `Commands` | Reimplemented under `!ess broadcast`, with simpler behavior. |
 
@@ -153,22 +154,6 @@ Renamed:
 Purpose:
 
 - Admin control/debug/reset of voting state.
-
-### Voxels
-
-Missing commands:
-
-- `voxels reset all`
-- `voxels cleanup asteroids`
-- `voxels cleanup distant`
-- `voxels reset planets`
-- `voxels reset planet`
-- `voxels reset area`
-- `voxels reset gps`
-
-Purpose:
-
-- Reset voxel maps, clean asteroid storage, reset planets, and reset voxel damage in an area or GPS point.
 
 ### Info Commands
 
@@ -339,7 +324,7 @@ Purpose:
 1. Done: cleanup and world maintenance: `cleanup ...`, `identity ...`, `faction clean/remove/info`, `sandbox clean`. Remaining related command: `rep wipe`.
 2. Done: grid/entity admin: `entities find/delete/stop/poweron/poweroff/eject`, `grids list/ejectall/stopall/static large`. Remaining related commands: `entities refresh`, `entities kill`, `grids export/import`.
 3. Done: player/admin QoL: `motd`, `playerlist`, `stats`, `mute/unmute`, private messaging aliases. Remaining related commands: `admin playercount`, `kick/ban/unban`, teleport tools.
-4. Voxel tools: `voxels reset ...`, `voxels cleanup ...`.
+4. Done: voxel tools: `voxels reset ...`, `voxels cleanup ...`.
 5. Crunch player grid/economy workflows: `claim`, `sellgrid`, `acceptgrid`, `denygrid`, `rename`, `pcucount`, `eco` compatibility aliases.
 6. Niche or risky tools after explicit decision: homes, NPC station commands, reputation/war system, debug economy sync commands.
 
