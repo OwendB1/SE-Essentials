@@ -18,7 +18,7 @@ Counts from the scan:
 
 | Source | Commands |
 |---|---:|
-| Current Essentials | 54 |
+| Current Essentials | 64 |
 | Archived essentials-torch | 102 |
 | Archived CrunchUtils | 83 |
 
@@ -36,6 +36,7 @@ Current Essentials covers these old Essentials/Torch command families:
 | `vote yes`, `vote no` | essentials-torch `VotingModule` | Old commands were root-level `yes` and `no`; current commands are namespaced. |
 | `cleanup scan`, `cleanup list`, `cleanup delete`, `cleanup delete floatingobjects`, `cleanup help` | essentials-torch `CleanupModule` | Reimplemented under `!ess cleanup ...`; destructive commands require repeat-to-confirm. |
 | `identity clean`, `identity purge`, `identity clear`, `faction clean`, `faction remove`, `faction info`, `sandbox clean` | essentials-torch `WorldModule` | Reimplemented under `!ess`; identity cleanup defaults to excluding NPC identities unless `includeNpcs` is `true`. |
+| `entities find`, `entities stop`, `entities delete`, `entities poweroff`, `entities poweron`, `entities eject`, `grids list`, `grids ejectall`, `grids stopall`, `grids static large` | essentials-torch `EntityModule`, `GridModule` | Reimplemented under `!ess`; delete/static commands require repeat-to-confirm. |
 | `broadcast` | CrunchUtils `Commands` | Reimplemented under `!ess broadcast`, with simpler behavior. |
 
 Partial coverage:
@@ -116,17 +117,7 @@ Notes:
 Missing commands:
 
 - `entities refresh`
-- `entities stop`
-- `entities delete`
 - `entities kill`
-- `entities find`
-- `entities poweroff`
-- `entities poweron`
-- `entities eject`
-- `grids ejectall`
-- `grids static large`
-- `grids stopall`
-- `grids list`
 - `grids export`
 - `grids import`
 
@@ -136,7 +127,7 @@ Partially covered:
 
 Purpose:
 
-- Entity resync/stop/delete/find/power toggles, eject players from cockpits, stop all grids, convert all large grids to stations, player grid listing, grid XML export/import.
+- Entity resync, player kill, and grid XML export/import.
 
 ### Homes
 
@@ -362,7 +353,7 @@ Purpose:
 ## Suggested Port Priority
 
 1. Done: cleanup and world maintenance: `cleanup ...`, `identity ...`, `faction clean/remove/info`, `sandbox clean`. Remaining related command: `rep wipe`.
-2. Grid/entity admin: `entities find/delete/stop/poweron/poweroff/eject`, `grids list/ejectall/stopall/static large`.
+2. Done: grid/entity admin: `entities find/delete/stop/poweron/poweroff/eject`, `grids list/ejectall/stopall/static large`. Remaining related commands: `entities refresh`, `entities kill`, `grids export/import`.
 3. Player/admin QoL: `motd`, `playerlist`, `stats`, `mute/unmute`, private messaging aliases.
 4. Voxel tools: `voxels reset ...`, `voxels cleanup ...`.
 5. Crunch player grid/economy workflows: `claim`, `sellgrid`, `acceptgrid`, `denygrid`, `rename`, `pcucount`, `eco` compatibility aliases.

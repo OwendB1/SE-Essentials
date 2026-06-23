@@ -92,6 +92,26 @@ Cleanup conditions include: `name <regex>`, `blockslessthan <count>`,
 | `!ess faction info [tag]` | Admin | List factions and their members. |
 | `!ess sandbox clean` | SpaceMaster | Clean stale identities, factions, GPS/camera/procedural data and block ownership. |
 
+## Entities & grids
+
+Find, stop, delete and power-toggle entities, plus common grid administration.
+`entities delete` and `grids static large` require running the same command again
+within 30 seconds to confirm. `[gridName]` defaults to the grid the caller is
+looking at where supported.
+
+| Command | Permission | Description |
+|---|---|---|
+| `!ess entities find <name>` | SpaceMaster | Find entities by display name or voxel storage name. |
+| `!ess entities stop <entityName>` | SpaceMaster | Clear an entity's linear/angular speed. |
+| `!ess entities delete <entityName>` | SpaceMaster | Delete a non-character entity after confirmation. |
+| `!ess entities poweroff <gridName>` | SpaceMaster | Disable reactors, batteries, solar panels and hydrogen engines on a grid. |
+| `!ess entities poweron <gridName>` | SpaceMaster | Enable reactors, batteries, solar panels and hydrogen engines on a grid. |
+| `!ess entities eject <playerName|all>` | Admin | Eject one seated player, or every seated player with `all`. |
+| `!ess grids list` | None | List grids owned by the caller; position/GPS output follows config. |
+| `!ess grids ejectall [gridName]` | SpaceMaster | Eject all pilots from a named or targeted mechanical grid group. |
+| `!ess grids stopall` | SpaceMaster | Clear speed on all non-projected grids. |
+| `!ess grids static large` | SpaceMaster | Convert all large ship grids to stations after confirmation. |
+
 ## Economy
 
 `<player>` is a player name or identity id. `*` affects all players. `onlyOnline`
