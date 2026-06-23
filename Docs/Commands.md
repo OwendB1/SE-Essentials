@@ -157,6 +157,14 @@ limits to online players; `excludeNpcs` (default `true`) skips NPC identities.
 | `!ess econ top [onlyOnline] [excludeNpcs]` | None | List balances, highest first. |
 | `!ess econ check <player>` | None | Show a player's balance. |
 | `!ess econ pay <player> <amount>` | None | Pay another online player from your account. |
+| `!ess eco` | None | List Crunch-compatible economy aliases. |
+| `!ess eco balance <player|faction> <name|tag>` | Admin | Show a player or faction balance. |
+| `!ess eco top [limit] [factions]` | Admin | List top player or faction balances. |
+| `!ess eco give <player|faction> <name|tag|*> <amount>` | Admin | Add credits through the compatibility alias. |
+| `!ess eco take <player|faction> <name|tag|*> <amount>` | Admin | Remove credits through the compatibility alias. |
+| `!ess eco pay <player|faction> <name|tag> <amount>` | None | Pay a player or faction through the compatibility alias. |
+| `!ess eco giveplayer <player> <amount>` | Admin | Compatibility alias for `econ give`. |
+| `!ess eco takeplayer <player> <amount>` | Admin | Compatibility alias for `econ take`. |
 
 ## Ship fixer
 
@@ -175,12 +183,20 @@ there.
 
 Inspect ownership/authorship and transfer PCU/ownership of a grid. `[gridName]`
 defaults to the grid you are looking at. Transfers respect block limits unless a
-`force…` variant is used.
+`force…` variant is used. Player-facing claim/sale/rename workflows require the
+caller to already own or have faction-share access to all owned functional blocks
+in the target grid group.
 
 | Command | Permission | Description |
 |---|---|---|
 | `!ess pcu checkowner [gridName]` | Moderator | Report block ownership on a grid. |
 | `!ess pcu checkauthor [gridName]` | Moderator | Report PCU authorship on a grid. |
+| `!ess pcucount` | None | Count PCU on the looked-at connected grid group, including projected PCU when present. |
+| `!ess claim [shareWithFaction]` | None | Claim the looked-at faction-shared mechanical grid group. |
+| `!ess sellgrid <amount>` | None | Offer the looked-at mechanical grid group to one nearby player for credits. |
+| `!ess acceptgrid` | None | Accept a pending grid sale offer. |
+| `!ess denygrid` | None | Deny a pending grid sale offer. |
+| `!ess rename <gridName> <newName>` | None | Rename a grid you own or have faction-share access to. |
 | `!ess transfer [playerName] [gridName]` | SpaceMaster | Transfer PCU and ownership to a player. |
 | `!ess forcetransfer [playerName] [gridName]` | SpaceMaster | Same, ignoring limits. |
 | `!ess transferpcu [playerName] [gridName]` | SpaceMaster | Transfer PCU only. |

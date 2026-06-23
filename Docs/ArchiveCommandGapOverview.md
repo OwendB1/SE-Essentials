@@ -18,7 +18,7 @@ Counts from the scan:
 
 | Source | Commands |
 |---|---:|
-| Current Essentials | 79 |
+| Current Essentials | 93 |
 | Archived essentials-torch | 102 |
 | Archived CrunchUtils | 83 |
 
@@ -41,15 +41,13 @@ Current Essentials covers these old Essentials/Torch command families:
 | `voxels reset all`, `voxels cleanup asteroids`, `voxels cleanup distant`, `voxels reset planets`, `voxels reset planet`, `voxels reset area`, `voxels reset gps` | essentials-torch `VoxelModule` | Reimplemented under `!ess`; destructive commands require repeat-to-confirm and reset storage instead of deleting voxel storage. |
 | `msg`, `whis` | CrunchUtils `Commands` | Reimplemented under `!ess` as private-message aliases for online players. |
 | `broadcast` | CrunchUtils `Commands` | Reimplemented under `!ess broadcast`, with simpler behavior. |
+| `claim`, `sellgrid`, `acceptgrid`, `denygrid`, `rename`, `pcucount` | CrunchUtils `Commands` | Reimplemented under `!ess`; claim/sale/rename require existing ownership or faction-share access, and grid sales reuse current transfer/economy helpers. |
+| `eco`, `eco balance`, `eco top`, `eco give`, `eco take`, `eco pay`, `eco giveplayer`, `eco takeplayer` | CrunchUtils `Commands` | Reimplemented as compatibility aliases; overlapping player operations delegate to existing `econ` logic, with faction balance/give/take/pay support where the old aliases exposed it. |
 
 Partial coverage:
 
 | Archive command(s) | Current command(s) | Gap |
 |---|---|---|
-| Crunch `eco give`, `eco take`, `eco top`, `eco pay` | `econ give`, `econ take`, `econ top`, `econ pay` | Function exists, but `eco` aliases do not. |
-| Crunch `eco balance` | `econ check` | Function exists under different name and permission differs: Crunch requires Admin, current allows None. |
-| Crunch `eco giveplayer`, `eco takeplayer` | `econ give`, `econ take` | Function exists through generic player-targeted commands, but old aliases do not. |
-| Crunch `pcucount` | `pcu checkauthor`, `pcu checkowner` | Current reports ownership/authorship; old command was player-facing connected-grid PCU count. |
 | essentials-torch `grids setowner` | `transferowner`, `transfer`, `forcetransfer` | Current transfer tools cover ownership transfer, but command shape and limit checks differ. |
 
 ## Likely Missing From essentials-torch
@@ -196,38 +194,21 @@ Missing commands:
 - `admin makeship`
 - `admin makestation`
 - `convert`
-- `claim`
-- `sellgrid`
-- `acceptgrid`
-- `denygrid`
 - `admin rename`
-- `rename`
 - `gridtype`
-
-Partially covered:
-
-- `pcucount` is partly related to current `pcu checkauthor`/`pcu checkowner`, but not equivalent.
 
 Purpose:
 
-- Convert grids between station/ship, player claim flow, player-to-player grid sale flow, rename grids, and show station/ship type.
+- Convert grids between station/ship, admin rename grids, and show station/ship type.
 
 Notes:
 
-- Current transfer commands are admin tools; Crunch had player-facing claim/sell/accept/deny flows.
+- Current transfer commands are admin tools; player-facing claim/sell/accept/deny flows are now ported separately.
 
 ### Economy and Wallets
 
 Missing or only partially covered commands:
 
-- `eco`
-- `eco balance`
-- `eco top`
-- `eco give`
-- `eco take`
-- `eco pay`
-- `eco giveplayer`
-- `eco takeplayer`
 - `eco resetplayer`
 - `eco resetbalances`
 - `eco resetplayers`
@@ -250,8 +231,8 @@ Purpose:
 
 Notes:
 
-- Current Essentials uses `econ`, not `eco`.
-- Current player balance commands cover player give/take/top/check/pay, but not faction wallets, withdraw/deposit, mass reset-to-zero flows, or sync commands.
+- Current Essentials has both `econ` commands and Crunch-compatible `eco` aliases for balance/top/give/take/pay/giveplayer/takeplayer.
+- Current player balance commands cover player give/take/top/check/pay and basic faction balance/give/take/pay aliases, but not faction wallets, withdraw/deposit, mass reset-to-zero flows, or sync commands.
 - Commands labeled "admin command no use" in Crunch are likely low priority.
 
 ### Factions, War, and Reputation
@@ -325,7 +306,7 @@ Purpose:
 2. Done: grid/entity admin: `entities find/delete/stop/poweron/poweroff/eject`, `grids list/ejectall/stopall/static large`. Remaining related commands: `entities refresh`, `entities kill`, `grids export/import`.
 3. Done: player/admin QoL: `motd`, `playerlist`, `stats`, `mute/unmute`, private messaging aliases. Remaining related commands: `admin playercount`, `kick/ban/unban`, teleport tools.
 4. Done: voxel tools: `voxels reset ...`, `voxels cleanup ...`.
-5. Crunch player grid/economy workflows: `claim`, `sellgrid`, `acceptgrid`, `denygrid`, `rename`, `pcucount`, `eco` compatibility aliases.
+5. Done: Crunch player grid/economy workflows: `claim`, `sellgrid`, `acceptgrid`, `denygrid`, `rename`, `pcucount`, `eco` compatibility aliases. Remaining related commands: `convert`, `gridtype`, `admin makeship/makestation/rename`, faction wallet deposit/withdraw/reset flows.
 6. Niche or risky tools after explicit decision: homes, NPC station commands, reputation/war system, debug economy sync commands.
 
 ## Raw Scan Pointers
