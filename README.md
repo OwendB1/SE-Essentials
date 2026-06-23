@@ -13,10 +13,49 @@ common quality-of-life server behaviour, configured through the Magnetar
   commands and warning sequences.
 - **MOTD** — connect messages and a Steam-overlay URL, with first-time variants.
 - **Ship fixer** — cut/paste a grid to clear physics issues, with cooldowns.
-- **Blocks, economy, PCU/ownership transfer, cleanup** utilities.
+- **Blocks, economy, PCU/ownership transfer, cleanup, grid conversion,
+  safezone, GPS and station maintenance** utilities.
 
 See [Docs/](Docs/README.md) for the full documentation and the
 [chat command reference](Docs/Commands.md).
+
+## Command Coverage
+
+Essentials currently exposes **158** `!ess` chat commands. The complete command
+reference lives in [Docs/Commands.md](Docs/Commands.md); the main groups are:
+
+- **Admin/player QoL** — MOTD, stats, player count, player list, promote level,
+  reserved slots, item give, kick/ban/unban, teleport, mute/unmute and private
+  messages.
+- **Lookup/admin info** — `getsteamid`, `listids`, `listnames`, `updatename`,
+  `lastlogin`, `isnpc`, `getfacid` and `worldpcu`.
+- **Homes & info** — `home add`, `home del`, `home list`, `home goto` and
+  `info list`.
+- **Auto commands & voting** — `runauto`, `cancelauto`,
+  `admin cancelautobyindex`, `listauto`, `vote`, `vote yes`, `vote no`,
+  `vote list`, `vote cancel`, `vote debug` and `vote reset`.
+- **Cleanup & world maintenance** — cleanup scan/list/delete, floating object
+  cleanup, identity clean/purge/clear, reputation wipe, faction clean/remove/info
+  and sandbox cleanup.
+- **Voxels** — reset all, cleanup asteroids/distant asteroids, reset planets,
+  reset one planet, reset area and reset GPS area.
+- **Entities & grids** — entity find/refresh/stop/delete/kill/power/eject, grid
+  list/export/import/ejectall/stopall/static-large, plus `admin makeship`,
+  `admin makestation`, `admin rename`, `convert` and `gridtype`.
+- **Safe zones, GPS & NPC stations** — `zone`, `ez hide`, `ez show`,
+  `ez delete`, `place station`, `fixallstations`, `fixstation`, `isecon` and
+  `sywavefix`. Destructive station cleanup commands require confirmation.
+- **Economy** — native `econ give/take/set/reset/top/check/pay`, `eco`
+  player/faction aliases, faction wallet aliases (`eco givefac`, `eco takefac`),
+  account reset commands (`eco resetbalances`, `eco resetplayers`,
+  `eco resetfactions`, `eco resetplayer`, `eco resetfac`), physical
+  `SpaceCredit` conversion (`eco deposit`, `eco withdraw`) and local account
+  refresh/debug commands (`TestEconSync`, `FullEconSync`, `SingleEconSync`,
+  `econ sync all`, `econ sync player`, `econ debug account`). `eco withdrawall`
+  is present as a disabled compatibility command; use `eco withdraw <amount>`.
+- **Ship fixer, PCU & ownership** — `fixship`, moderator fix commands,
+  PCU/author/owner checks, claim/sell/accept/deny grid workflows, rename and
+  PCU/ownership transfer commands.
 
 ## Prerequisites
 
