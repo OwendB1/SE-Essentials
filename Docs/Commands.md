@@ -42,6 +42,22 @@ Drive [auto command](AutoCommands.md) sequences and the server lifecycle.
 | `!ess vote no` | None | Vote no on the current vote. |
 | `!ess vote list` | None | List the configured vote commands. |
 
+## Player & admin QoL
+
+MOTD opens through the Plugin SDK mission-screen API when MagnetarMod is
+available; otherwise it falls back to private chat output.
+
+| Command | Permission | Description |
+|---|---|---|
+| `!ess motd` | None | Show the configured MOTD and MOTD URL. |
+| `!ess stats` | Admin | Show server runtime stats, sim speed, entity counts, PCU and memory. |
+| `!ess playerlist` | Admin | List online players with identity id, Steam id and promote level. |
+| `!ess mute <player> [minutes]` | Admin | Mute a player in chat; `0` or omitted means indefinite. |
+| `!ess unmute <player>` | Admin | Remove a chat mute. |
+| `!ess list mute` | Admin | List muted players and remaining time. |
+| `!ess msg <player> <message>` | None | Send a private message to an online player. Quote names with spaces. |
+| `!ess whis <player> <message>` | None | Alias for `msg`. |
+
 ## Blocks
 
 Toggle or remove functional blocks across all (non-projected) grids. Block

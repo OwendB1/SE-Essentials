@@ -18,7 +18,7 @@ Counts from the scan:
 
 | Source | Commands |
 |---|---:|
-| Current Essentials | 64 |
+| Current Essentials | 72 |
 | Archived essentials-torch | 102 |
 | Archived CrunchUtils | 83 |
 
@@ -37,6 +37,8 @@ Current Essentials covers these old Essentials/Torch command families:
 | `cleanup scan`, `cleanup list`, `cleanup delete`, `cleanup delete floatingobjects`, `cleanup help` | essentials-torch `CleanupModule` | Reimplemented under `!ess cleanup ...`; destructive commands require repeat-to-confirm. |
 | `identity clean`, `identity purge`, `identity clear`, `faction clean`, `faction remove`, `faction info`, `sandbox clean` | essentials-torch `WorldModule` | Reimplemented under `!ess`; identity cleanup defaults to excluding NPC identities unless `includeNpcs` is `true`. |
 | `entities find`, `entities stop`, `entities delete`, `entities poweroff`, `entities poweron`, `entities eject`, `grids list`, `grids ejectall`, `grids stopall`, `grids static large` | essentials-torch `EntityModule`, `GridModule` | Reimplemented under `!ess`; delete/static commands require repeat-to-confirm. |
+| `stats`, `playerlist`, `mute`, `unmute`, `list mute`, `motd` | essentials-torch `AdminModule`, `PlayerModule` | Reimplemented under `!ess`; MOTD uses Plugin SDK mission screens with chat fallback. |
+| `msg`, `whis` | CrunchUtils `Commands` | Reimplemented under `!ess` as private-message aliases for online players. |
 | `broadcast` | CrunchUtils `Commands` | Reimplemented under `!ess broadcast`, with simpler behavior. |
 
 Partial coverage:
@@ -55,17 +57,12 @@ Partial coverage:
 
 Missing commands:
 
-- `admin stats`
 - `admin playercount`
-- `admin playerlist`
 - `admin cancelautobyindex`
 - `admin set toolbar`
 - `admin setrank`
 - `admin reserve`
 - `admin unreserve`
-- `admin mute`
-- `admin unmute`
-- `admin list mute`
 - `admin give`
 
 Purpose:
@@ -87,15 +84,13 @@ Missing commands:
 - `kick`
 - `ban`
 - `unban`
-- `motd`
 
 Purpose:
 
-- Teleporting, moderation actions, and replaying MOTD on demand.
+- Teleporting and moderation actions.
 
 Notes:
 
-- Current Essentials has MOTD-on-connect config, but no `!ess motd` command.
 - `kick`, `ban`, and `unban` may overlap with vanilla/admin tooling, but they are not present in current Essentials.
 
 ### Reputation Maintenance
@@ -339,22 +334,11 @@ Purpose:
 
 - Safezone allow/deny list editing, GPS hide/show/delete helpers, NPC economy station placement and duplicate/fix utilities.
 
-### Messaging
-
-Missing commands:
-
-- `whis`
-- `msg`
-
-Purpose:
-
-- Private player messaging.
-
 ## Suggested Port Priority
 
 1. Done: cleanup and world maintenance: `cleanup ...`, `identity ...`, `faction clean/remove/info`, `sandbox clean`. Remaining related command: `rep wipe`.
 2. Done: grid/entity admin: `entities find/delete/stop/poweron/poweroff/eject`, `grids list/ejectall/stopall/static large`. Remaining related commands: `entities refresh`, `entities kill`, `grids export/import`.
-3. Player/admin QoL: `motd`, `playerlist`, `stats`, `mute/unmute`, private messaging aliases.
+3. Done: player/admin QoL: `motd`, `playerlist`, `stats`, `mute/unmute`, private messaging aliases. Remaining related commands: `admin playercount`, `kick/ban/unban`, teleport tools.
 4. Voxel tools: `voxels reset ...`, `voxels cleanup ...`.
 5. Crunch player grid/economy workflows: `claim`, `sellgrid`, `acceptgrid`, `denygrid`, `rename`, `pcucount`, `eco` compatibility aliases.
 6. Niche or risky tools after explicit decision: homes, NPC station commands, reputation/war system, debug economy sync commands.
