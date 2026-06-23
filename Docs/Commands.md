@@ -31,6 +31,7 @@ Drive [auto command](AutoCommands.md) sequences and the server lifecycle.
 | `!ess stop [now]` | Admin | Run the configured shutdown sequence, or stop immediately with `now`. |
 | `!ess runauto <name>` | Admin | Start an auto command now, regardless of its trigger. |
 | `!ess cancelauto <name>` | Admin | Cancel running instances of an auto command. |
+| `!ess admin cancelautobyindex <index>` | Admin | Cancel one running auto command by the 1-based index shown in `listauto`. |
 | `!ess listauto` | Admin | List configured and running auto commands. |
 
 ### Voting
@@ -41,6 +42,9 @@ Drive [auto command](AutoCommands.md) sequences and the server lifecycle.
 | `!ess vote yes` | None | Vote yes on the current vote. |
 | `!ess vote no` | None | Vote no on the current vote. |
 | `!ess vote list` | None | List the configured vote commands. |
+| `!ess vote cancel` | Admin | Cancel the current vote. |
+| `!ess vote debug` | Admin | Show current and previous vote state. |
+| `!ess vote reset` | Admin | Clear current and previous vote state. |
 
 ## Player & admin QoL
 
@@ -51,12 +55,44 @@ available; otherwise it falls back to private chat output.
 |---|---|---|
 | `!ess motd` | None | Show the configured MOTD and MOTD URL. |
 | `!ess stats` | Admin | Show server runtime stats, sim speed, entity counts, PCU and memory. |
+| `!ess admin playercount [count]` | Admin | Show or set the max player count. |
 | `!ess playerlist` | Admin | List online players with identity id, Steam id and promote level. |
+| `!ess getsteamid <name|steamId|identityId> [online]` | None | Look up Steam and identity ids for matching identities. |
+| `!ess listids` | None | List online players with Steam ids. |
+| `!ess listnames` | None | List online players whose Steam and identity names differ. |
+| `!ess updatename <player> <newName>` | Admin | Update an identity display name. |
+| `!ess lastlogin <player>` | Admin | Show an identity's last login time. |
+| `!ess isnpc <player>` | Admin | Report whether an identity is an NPC. |
+| `!ess getfacid <tag>` | Admin | Show a faction id. |
+| `!ess worldpcu` | Admin | Show total world PCU. |
+| `!ess admin setrank <player> <rank>` | Admin | Set a player's promote level (`None`, `Scripter`, `Moderator`, `SpaceMaster`, `Admin`). |
+| `!ess admin reserve <player>` | Admin | Add a player/Steam ID to reserved slots. |
+| `!ess admin unreserve <player>` | Admin | Remove a player/Steam ID from reserved slots. |
+| `!ess admin give <player|*> <itemType> <subtype> <quantity>` | Admin | Add an item to one online player or all online players. |
+| `!ess kick <player>` | Moderator | Kick a player from the game. |
+| `!ess ban <player|steamId>` | Moderator | Ban a player/Steam ID. |
+| `!ess unban <player|steamId>` | Moderator | Remove a player/Steam ID ban. |
+| `!ess tp [entityToMove] [destination]` | SpaceMaster | Teleport one entity to another; omitted values default to the caller. |
+| `!ess tpto <destination> [entityToMove]` | SpaceMaster | Teleport yourself or another entity to a destination entity. |
+| `!ess tphere <entityToMove>` | SpaceMaster | Teleport an entity to the caller. |
 | `!ess mute <player> [minutes]` | Admin | Mute a player in chat; `0` or omitted means indefinite. |
 | `!ess unmute <player>` | Admin | Remove a chat mute. |
 | `!ess list mute` | Admin | List muted players and remaining time. |
 | `!ess msg <player> <message>` | None | Send a private message to an online player. Quote names with spaces. |
 | `!ess whis <player> <message>` | None | Alias for `msg`. |
+
+## Homes & info
+
+Homes are stored per Steam ID in `Essentials.Homes.xml` under the server user-data
+folder. Limits and enablement are configured on the **Homes** tab.
+
+| Command | Permission | Description |
+|---|---|---|
+| `!ess home add <name>` | None | Save your current character position as a home. |
+| `!ess home del <name>` | None | Delete one saved home. |
+| `!ess home list` | None | List your saved homes. |
+| `!ess home goto <name>` | None | Teleport to a saved home. |
+| `!ess info list` | None | List configured info command names. |
 
 ## Blocks
 
@@ -103,6 +139,7 @@ Cleanup conditions include: `name <regex>`, `blockslessthan <count>`,
 | `!ess identity clean <days> [includeNpcs]` | SpaceMaster | Remove old identities and preserve/reassign their grids. `includeNpcs` defaults to `false`. |
 | `!ess identity purge <days> [includeNpcs]` | SpaceMaster | Remove old identities and close grids solely owned by them. `includeNpcs` defaults to `false`. |
 | `!ess identity clear <player>` | Admin | Remove one identity and close grids solely owned by it. |
+| `!ess rep wipe [removePlayerToFaction] [removeFactionToFaction]` | Admin | Wipe reputation relation data after confirmation. Both flags default to `true`. |
 | `!ess faction clean [memberCount]` | Admin | Remove factions with fewer than `memberCount` valid members (default `1`). |
 | `!ess faction remove <tag>` | Admin | Remove a faction by tag. |
 | `!ess faction info [tag]` | Admin | List factions and their members. |
@@ -133,20 +170,45 @@ looking at where supported.
 | Command | Permission | Description |
 |---|---|---|
 | `!ess entities find <name>` | SpaceMaster | Find entities by display name or voxel storage name. |
+| `!ess entities refresh` | None | Force a replication refresh for the caller. |
 | `!ess entities stop <entityName>` | SpaceMaster | Clear an entity's linear/angular speed. |
 | `!ess entities delete <entityName>` | SpaceMaster | Delete a non-character entity after confirmation. |
+| `!ess entities kill <playerOrCharacter>` | SpaceMaster | Kill an online player or character entity. |
 | `!ess entities poweroff <gridName>` | SpaceMaster | Disable reactors, batteries, solar panels and hydrogen engines on a grid. |
 | `!ess entities poweron <gridName>` | SpaceMaster | Enable reactors, batteries, solar panels and hydrogen engines on a grid. |
 | `!ess entities eject <playerName|all>` | Admin | Eject one seated player, or every seated player with `all`. |
 | `!ess grids list` | None | List grids owned by the caller; position/GPS output follows config. |
+| `!ess grids export <gridName> <fileName>` | SpaceMaster | Export a grid XML file under `Essentials/ExportedGrids`. |
+| `!ess grids import <fileName> [targetName]` | SpaceMaster | Import a grid XML file near the caller or target entity. |
 | `!ess grids ejectall [gridName]` | SpaceMaster | Eject all pilots from a named or targeted mechanical grid group. |
 | `!ess grids stopall` | SpaceMaster | Clear speed on all non-projected grids. |
 | `!ess grids static large` | SpaceMaster | Convert all large ship grids to stations after confirmation. |
+| `!ess admin makeship [gridName]` | Admin | Convert a named or looked-at physical grid group to ships. |
+| `!ess admin makestation [gridName]` | Admin | Convert a named or looked-at physical grid group to stations. |
+| `!ess admin rename <gridName> <newName>` | Admin | Rename a grid without ownership checks. |
+| `!ess convert` | None | Toggle the looked-at owned/faction-accessible grid group between ship and station outside natural gravity. |
+| `!ess gridtype [gridName]` | None | Report whether target grids are ships or stations. |
+
+## Safe zones, GPS & economy stations
+
+| Command | Permission | Description |
+|---|---|---|
+| `!ess zone <add|remove> <player|fac> <name|tag>` | Admin | Add or remove a player/faction from a safe zone within 500m. |
+| `!ess ez hide <name|all>` | None | Hide matching GPS signals. |
+| `!ess ez show <name|all>` | None | Show matching GPS signals. |
+| `!ess ez delete <name|all>` | None | Delete matching GPS signals. |
+| `!ess place station <npcTag> <type>` | Admin | Register an NPC economy station at the caller position. Types: `SpaceStations`, `OrbitalStations`, `Outposts`, `MiningStations`. |
+| `!ess fixallstations` | Admin | Delete duplicate NPC station grids around registered stations after confirmation. |
+| `!ess fixstation` | Admin | Delete duplicate NPC station grids near the caller after confirmation. |
+| `!ess isecon` | None | Report whether nearby NPC station grids are registered economy stations. |
+| `!ess sywavefix` | Admin | Admin alias for the nearby economy-station report. |
 
 ## Economy
 
 `<player>` is a player name or identity id. `*` affects all players. `onlyOnline`
 limits to online players; `excludeNpcs` (default `true`) skips NPC identities.
+`eco deposit` and `eco withdraw` convert physical `SpaceCredit` items between
+accessible inventories on the looked-at grid group and the caller's account.
 
 | Command | Permission | Description |
 |---|---|---|
@@ -157,14 +219,30 @@ limits to online players; `excludeNpcs` (default `true`) skips NPC identities.
 | `!ess econ top [onlyOnline] [excludeNpcs]` | None | List balances, highest first. |
 | `!ess econ check <player>` | None | Show a player's balance. |
 | `!ess econ pay <player> <amount>` | None | Pay another online player from your account. |
-| `!ess eco` | None | List Crunch-compatible economy aliases. |
+| `!ess econ sync all` | Admin | Refresh all local player economy accounts at their current balances. |
+| `!ess econ sync player <player>` | Admin | Refresh one local player economy account at its current balance. |
+| `!ess econ debug account <player|tag>` | Admin | Show local account state for a player or faction. |
+| `!ess TestEconSync` | Admin | Refresh the caller's local account at its current balance. |
+| `!ess FullEconSync` / `!ess fulleconsync` | Admin | Refresh all local player accounts at current balances. |
+| `!ess SingleEconSync <player>` / `!ess singleeconsync <player>` | Admin | Refresh one local player account at current balance. |
+| `!ess eco` | None | List economy aliases. |
 | `!ess eco balance <player|faction> <name|tag>` | Admin | Show a player or faction balance. |
 | `!ess eco top [limit] [factions]` | Admin | List top player or faction balances. |
-| `!ess eco give <player|faction> <name|tag|*> <amount>` | Admin | Add credits through the compatibility alias. |
-| `!ess eco take <player|faction> <name|tag|*> <amount>` | Admin | Remove credits through the compatibility alias. |
-| `!ess eco pay <player|faction> <name|tag> <amount>` | None | Pay a player or faction through the compatibility alias. |
-| `!ess eco giveplayer <player> <amount>` | Admin | Compatibility alias for `econ give`. |
-| `!ess eco takeplayer <player> <amount>` | Admin | Compatibility alias for `econ take`. |
+| `!ess eco give <player|faction> <name|tag|*> <amount>` | Admin | Add credits through the economy alias. |
+| `!ess eco take <player|faction> <name|tag|*> <amount>` | Admin | Remove credits through the economy alias. |
+| `!ess eco pay <player|faction> <name|tag> <amount>` | None | Pay a player or faction through the economy alias. |
+| `!ess eco giveplayer <player> <amount>` | Admin | Alias for `econ give`. |
+| `!ess eco takeplayer <player> <amount>` | Admin | Alias for `econ take`. |
+| `!ess eco givefac <tag> <amount>` | Admin | Alias for `eco give faction`. |
+| `!ess eco takefac <tag> <amount>` | Admin | Alias for `eco take faction`. |
+| `!ess eco resetbalances` | Admin | Reset player balances to the starting balance and faction balances to zero. |
+| `!ess eco resetplayers` | Admin | Reset player balances to the starting balance. |
+| `!ess eco resetfactions` | Admin | Reset faction balances to zero. |
+| `!ess eco resetplayer <player>` | Admin | Set one player's balance to zero. |
+| `!ess eco resetfac <tag>` | Admin | Set one faction's balance to zero. |
+| `!ess eco deposit [playerOwnedOnly]` | None | Deposit physical `SpaceCredit` items from the caller and accessible looked-at grid inventories. |
+| `!ess eco withdraw <amount>` | None | Withdraw credits as physical `SpaceCredit` items into an accessible cargo container. |
+| `!ess eco withdrawall` | Admin | Disabled compatibility command; use `eco withdraw <amount>`. |
 
 ## Ship fixer
 

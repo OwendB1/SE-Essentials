@@ -9,6 +9,8 @@ namespace Shared.Config;
 [Tab("pcu", caption: "PCU Tools")]
 [Tab("shipfixer", caption: "Ship Fixer")]
 [Tab("autocmd", caption: "Auto Commands")]
+[Tab("homes", caption: "Homes")]
+[Tab("info", caption: "Info Commands")]
 [Section("core", "general", "Core")]
 [Section("grid", "general", "Grid Utilities")]
 [Section("motd-main", "motd", "Messages")]
@@ -18,6 +20,8 @@ namespace Shared.Config;
 [Section("shipfixer-core", "shipfixer", "Core")]
 [Section("autocmd-list", "autocmd", "Auto Commands")]
 [Section("autocmd-lifecycle", "autocmd", "Restart / Shutdown Sequences")]
+[Section("homes-core", "homes", "Homes")]
+[Section("info-list", "info", "Info Commands")]
 public class PluginConfig : PluginSdk.Config.PluginConfig, IPluginConfig
 {
     [BoolOption("Enable Essentials plugin runtime.", Parent = "core")]
@@ -46,6 +50,15 @@ public class PluginConfig : PluginSdk.Config.PluginConfig, IPluginConfig
 
     [BoolOption("Show GPS markers for owned-grid list output.", Parent = "grid")]
     public bool MarkerShowPosition { get; set => SetField(ref field, value); }
+
+    [BoolOption("Allow players to save and teleport to home locations.", Parent = "homes-core")]
+    public bool HomesEnabled { get; set => SetField(ref field, value); } = true;
+
+    [IntOption(0, 100, "Maximum saved homes per player.", Parent = "homes-core")]
+    public int MaxHomesPerPlayer { get; set => SetField(ref field, value); } = 3;
+
+    [StructOption("Configured info command names listed by !ess info list.", Parent = "info-list")]
+    public List<InfoCommand> InfoCommands { get; set => SetField(ref field, value); } = new();
 
     [IntOption(-1, int.MaxValue, "Maximum empty backpacks per player. Set -1 for no limit.", Parent = "cleanup-bags")]
     public int BackpackLimit { get; set => SetField(ref field, value); } = 3;
@@ -87,4 +100,10 @@ public class PluginConfig : PluginSdk.Config.PluginConfig, IPluginConfig
 
     [IntOption(5, 3600, "Duration in seconds of a player vote started with !ess vote.", Parent = "autocmd-lifecycle")]
     public int VoteDurationSeconds { get; set => SetField(ref field, value); } = 60;
+}
+
+public struct InfoCommand
+{
+    [StructMember("Command name shown by !ess info list."), StructCaption]
+    public string Command { get; set; }
 }

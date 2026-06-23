@@ -118,6 +118,22 @@ public sealed partial class EssentialsModule
             : $"No running auto command named '{target}'.";
     }
 
+    [Command("admin cancelautobyindex", "Cancel a running auto command by list index.")]
+    [Permission(MyPromoteLevel.Admin)]
+    public string AdminCancelAutoByIndex(int index = 0)
+    {
+        AutoCommandExecutor executor = Plugin.Instance?.AutoCommands;
+        if (executor == null)
+            return "Auto commands are not available.";
+
+        if (index < 1)
+            return "Usage: !ess admin cancelautobyindex <index>";
+
+        return executor.CancelByIndex(index, out string name)
+            ? $"Auto command '{name}' cancelled."
+            : $"{index} is out of range.";
+    }
+
     [Command("listauto", "List configured and running auto commands.")]
     [Permission(MyPromoteLevel.Admin)]
     public IEnumerable<string> ListAuto()
@@ -137,6 +153,21 @@ public sealed partial class EssentialsModule
     [Permission(MyPromoteLevel.None)]
     public IEnumerable<string> VoteList()
         => Plugin.Instance?.AutoCommands?.DescribeVotes() ?? new[] { "Voting is not available." };
+
+    [Command("vote cancel", "Cancel the current vote.")]
+    [Permission(MyPromoteLevel.Admin)]
+    public string VoteCancel()
+        => Plugin.Instance?.AutoCommands?.CancelVote() ?? "Voting is not available.";
+
+    [Command("vote debug", "Show vote state for admins.")]
+    [Permission(MyPromoteLevel.Admin)]
+    public IEnumerable<string> VoteDebug()
+        => Plugin.Instance?.AutoCommands?.DescribeVoteDebug() ?? new[] { "Voting is not available." };
+
+    [Command("vote reset", "Reset current and previous vote state.")]
+    [Permission(MyPromoteLevel.Admin)]
+    public string VoteReset()
+        => Plugin.Instance?.AutoCommands?.ResetVoteState() ?? "Voting is not available.";
 
     [Command("vote", "Start a vote for a configured vote command.")]
     [Permission(MyPromoteLevel.None)]

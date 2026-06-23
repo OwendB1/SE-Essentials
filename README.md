@@ -81,6 +81,3 @@ The logged hash can be copied back into the attribute after validating a new gam
 ## Publishing
 
 Register server plugins in [MagnetarHub](https://github.com/viktor-ferenczi/MagnetarHub), so they become available in Magnetar.
-
-Functionality is inspired by and reimplements the original Torch plugin
-Essentials by TorchAPI: https://github.com/TorchAPI/Essentials

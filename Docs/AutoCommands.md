@@ -2,9 +2,7 @@
 
 Auto commands are named sequences of server actions that run on a schedule or in
 response to a condition — timed restarts, cleanup passes, MOTD reminders,
-warning countdowns before a shutdown, player votes, and so on. They are the
-Magnetar PluginSdk equivalent of the auto-command feature from the original
-Torch *Essentials* plugin.
+warning countdowns before a shutdown, player votes, and so on.
 
 Everything is configured from the **Auto Commands** tab in the Quasar web UI
 (rendered from the `PluginConfig` schema). There are **no auto commands by
@@ -109,8 +107,8 @@ ping an external API, post to Discord, etc., before continuing.
 
 ### Delays and timing
 
-`Delay` is the wait **after** a step, before the next one (matching the original
-Torch behaviour), so the **first step runs immediately**. A typical countdown
+`Delay` is the wait **after** a step, before the next one, so the **first step
+runs immediately**. A typical countdown
 puts the announcement on the step and the gap on its delay:
 
 ```
@@ -218,12 +216,12 @@ Steps:
   Action=Restart
 ```
 
-## Migrating from Torch Essentials
+## Converting Existing Sequences
 
 The model maps almost one-to-one. The main differences:
 
-- **Command lines must target `!ess …`.** Torch scripts that called other plugins'
-  commands (`!cleanup`, `!voxels`, CrunchUtils, …) won't resolve. Replace common
+- **Command lines must target `!ess …`.** Sequences that called other plugins'
+  commands (`!cleanup`, `!voxels`, and similar) won't resolve. Replace common
   ones with structured actions (`Announce`, `Notify`, `Save`, `Restart`, `Stop`)
   or this plugin's `!ess` commands.
 - `!admin runauto "X"` → `!ess runauto X`, or a `RunAuto` step with `Command=X`.
@@ -231,7 +229,7 @@ The model maps almost one-to-one. The main differences:
   `!ess say` / `!ess broadcast` / `!ess notify`.
 - `!restart` / `!stop` → the `Restart` / `Stop` actions, or `!ess restart` / `!ess
   stop` (configured as the restart/shutdown sequence).
-- Old `EssentialsConfig.xml` files do **not** auto-import (the config root differs);
+- Older XML config files do **not** auto-import when their root model differs;
   re-create the sequences in the Auto Commands tab.
 
 ## Limits

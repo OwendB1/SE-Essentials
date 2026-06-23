@@ -123,7 +123,7 @@ public sealed partial class EssentialsModule
         return $"Sent {amount:#,##0} credits to {target.DisplayName}.";
     }
 
-    [Command("eco", "List economy compatibility commands.")]
+    [Command("eco", "List economy alias commands.")]
     [Permission(MyPromoteLevel.None)]
     public string EcoHelp()
     {
@@ -139,6 +139,10 @@ public sealed partial class EssentialsModule
             "!ess eco take faction <tag> <amount>",
             "!ess eco pay player <player> <amount>",
             "!ess eco pay faction <tag> <amount>",
+            "!ess eco deposit [playerOwnedOnly]",
+            "!ess eco withdraw <amount>",
+            "!ess eco resetplayer <player>",
+            "!ess eco resetfac <tag>",
             "Native aliases: !ess econ give/take/set/reset/top/check/pay");
     }
 
@@ -172,7 +176,7 @@ public sealed partial class EssentialsModule
             : BuildPlayerBalanceReport($"Top {limit:#,##0} player balances", limit, onlyOnline: false, excludeNpcs: true);
     }
 
-    [Command("eco give", "Compatibility alias for econ give, with faction support.")]
+    [Command("eco give", "Economy alias for econ give, with faction support.")]
     [Permission(MyPromoteLevel.Admin)]
     public void EcoGive(string type, string recipient, string inputAmount)
     {
@@ -196,7 +200,7 @@ public sealed partial class EssentialsModule
         }
     }
 
-    [Command("eco take", "Compatibility alias for econ take, with faction support.")]
+    [Command("eco take", "Economy alias for econ take, with faction support.")]
     [Permission(MyPromoteLevel.Admin)]
     public void EcoTake(string type, string recipient, string inputAmount)
     {
@@ -220,7 +224,7 @@ public sealed partial class EssentialsModule
         }
     }
 
-    [Command("eco pay", "Compatibility alias for econ pay, with faction support.")]
+    [Command("eco pay", "Economy alias for econ pay, with faction support.")]
     [Permission(MyPromoteLevel.None)]
     public string EcoPay(string type, string recipient, string inputAmount)
     {
@@ -263,7 +267,7 @@ public sealed partial class EssentialsModule
         return $"Sent {FormatCredits(amount)} credits to {targetName}.";
     }
 
-    [Command("eco giveplayer", "Compatibility alias for econ give.")]
+    [Command("eco giveplayer", "Economy alias for econ give.")]
     [Permission(MyPromoteLevel.Admin)]
     public void EcoGivePlayer(string playerNameOrId, long amount)
     {
@@ -276,7 +280,7 @@ public sealed partial class EssentialsModule
         Give(playerNameOrId, amount);
     }
 
-    [Command("eco takeplayer", "Compatibility alias for econ take.")]
+    [Command("eco takeplayer", "Economy alias for econ take.")]
     [Permission(MyPromoteLevel.Admin)]
     public void EcoTakePlayer(string playerNameOrId, long amount)
     {

@@ -267,6 +267,26 @@ public sealed partial class EssentialsModule
         Context.Respond($"Removed identity '{identity.DisplayName}', closed {deletedGrids:#,##0} grid(s), removed {factions:#,##0} empty faction(s).");
     }
 
+    [Command("rep wipe", "Reset reputation relations on the server.")]
+    [Permission(MyPromoteLevel.Admin)]
+    public void RepWipe(bool removePlayerToFaction = true, bool removeFactionToFaction = true)
+    {
+        int count = CountReputations(removePlayerToFaction, removeFactionToFaction);
+        if (count == 0)
+        {
+            Context.Respond("Wiped 0 reputations.");
+            return;
+        }
+
+        string operation = $"rep wipe:{removePlayerToFaction}:{removeFactionToFaction}";
+        if (!ConfirmMaintenance(operation, $"This will wipe {count:#,##0} reputation relation(s). Run the same command again within 30 seconds to confirm."))
+            return;
+
+        int wiped = WipeReputations(removePlayerToFaction, removeFactionToFaction);
+        Context.Respond($"Wiped {wiped:#,##0} reputation relation(s).");
+        Plugin.Instance?.Log.Info("Wiped {0} reputation relations", wiped);
+    }
+
     [Command("faction clean", "Remove factions with fewer than the given number of valid members.")]
     [Permission(MyPromoteLevel.Admin)]
     public void FactionClean(int memberCount = 1)
@@ -943,6 +963,40 @@ public sealed partial class EssentialsModule
         int count = 0;
         count += RemoveInvalidRelations(GetDictionaryField(MySession.Static.Factions, FactionRelationsField), valid);
         count += RemoveInvalidRelations(GetDictionaryField(MySession.Static.Factions, PlayerFactionRelationsField), valid);
+        return count;
+    }
+
+    private static int CountReputations(bool removePlayerToFaction, bool removeFactionToFaction)
+    {
+        int count = 0;
+        if (removeFactionToFaction)
+            count += GetDictionaryField(MySession.Static.Factions, FactionRelationsField)?.Count ?? 0;
+
+        if (removePlayerToFaction)
+            count += GetDictionaryField(MySession.Static.Factions, PlayerFactionRelationsField)?.Count ?? 0;
+
+        return count;
+    }
+
+    private static int WipeReputations(bool removePlayerToFaction, bool removeFactionToFaction)
+    {
+        int count = 0;
+        if (removeFactionToFaction)
+            count += ClearDictionary(GetDictionaryField(MySession.Static.Factions, FactionRelationsField));
+
+        if (removePlayerToFaction)
+            count += ClearDictionary(GetDictionaryField(MySession.Static.Factions, PlayerFactionRelationsField));
+
+        return count;
+    }
+
+    private static int ClearDictionary(IDictionary dictionary)
+    {
+        if (dictionary == null)
+            return 0;
+
+        int count = dictionary.Count;
+        dictionary.Clear();
         return count;
     }
 

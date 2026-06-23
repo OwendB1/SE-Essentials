@@ -5,10 +5,10 @@ namespace Shared.Config;
 
 // Configuration model for timed/triggered server command sequences ("auto commands").
 //
-// The model mirrors the original Essentials Torch plugin so existing scripts map
-// over cleanly, while fitting the Magnetar PluginSdk: a flat List<AutoCommand> is
-// rendered by Quasar, each command owning an ordered List<CommandStep>. The whole
-// feature defaults to empty, so a fresh install runs no auto commands.
+// The model keeps scheduled command sequences compact while fitting the Magnetar
+// PluginSdk: a flat List<AutoCommand> is rendered by Quasar, each command owning
+// an ordered List<CommandStep>. The whole feature defaults to empty, so a fresh
+// install runs no auto commands.
 
 /// <summary>How an <see cref="AutoCommand"/> decides when to start.</summary>
 public enum AutoTrigger

@@ -43,6 +43,9 @@ public sealed class AutoCommandExecutor
     private DateTime voteEndsAt;
     private readonly HashSet<long> voteYes = new();
     private readonly HashSet<long> voteNo = new();
+    private string lastVoteName;
+    private string lastVoteResult = "none";
+    private float lastVotePercentage;
 
     internal IPluginLogger Log => log;
 
@@ -291,6 +294,20 @@ public sealed class AutoCommandExecutor
         return cancelled;
     }
 
+    /// <summary>Cancels one running auto command by 1-based list index.</summary>
+    public bool CancelByIndex(int index, out string name)
+    {
+        name = null;
+        if (index < 1 || index > running.Count)
+            return false;
+
+        RunningSequence sequence = running[index - 1];
+        name = string.IsNullOrEmpty(sequence.Name) ? "(unnamed)" : sequence.Name;
+        sequence.ForceComplete();
+        running.RemoveAt(index - 1);
+        return true;
+    }
+
     /// <summary>Human-readable listing of configured and running auto commands.</summary>
     public IEnumerable<string> Describe()
     {
@@ -302,6 +319,16 @@ public sealed class AutoCommandExecutor
             string name = string.IsNullOrEmpty(command.Name) ? "(unnamed)" : command.Name;
             int steps = command.Steps?.Count ?? 0;
             lines.Add($"- {name} [{command.Trigger}] {steps} step(s)");
+        }
+
+        if (running.Count > 0)
+        {
+            lines.Add("Running auto commands:");
+            for (int i = 0; i < running.Count; i++)
+            {
+                string name = string.IsNullOrEmpty(running[i].Name) ? "(unnamed)" : running[i].Name;
+                lines.Add($"{i + 1}. {name}");
+            }
         }
 
         return lines;
@@ -402,6 +429,9 @@ public sealed class AutoCommandExecutor
         voteNo.Clear();
         voteYes.Add(voterIdentityId);
         voteEndsAt = DateTime.Now + TimeSpan.FromSeconds(Math.Max(5, config.VoteDurationSeconds));
+        lastVoteName = voteName;
+        lastVoteResult = "in progress";
+        lastVotePercentage = 0f;
 
         Announce($"Vote started: {voteName}. Type !ess vote yes or !ess vote no ({config.VoteDurationSeconds}s).", null);
         return $"Vote '{voteName}' started.";
@@ -438,6 +468,45 @@ public sealed class AutoCommandExecutor
         return names;
     }
 
+    public string CancelVote()
+    {
+        if (voteName == null)
+            return "No vote is in progress.";
+
+        string cancelled = voteName;
+        EndVote("cancelled", 0f);
+        Announce($"Vote '{cancelled}' cancelled.", null);
+        return $"Vote '{cancelled}' cancelled.";
+    }
+
+    public IEnumerable<string> DescribeVoteDebug()
+    {
+        int yes = voteYes.Count;
+        int no = voteNo.Count;
+        int total = yes + no;
+        float percentage = total > 0 ? (float)yes / total * 100f : 0f;
+
+        return new[]
+        {
+            "Voting state:",
+            $"Current vote: {voteName ?? "(none)"}",
+            $"Ends at: {(voteName == null ? "(none)" : voteEndsAt.ToString("O", CultureInfo.InvariantCulture))}",
+            $"Votes: {yes} yes, {no} no ({percentage:0.##}% yes)",
+            $"Last vote: {lastVoteName ?? "(none)"}",
+            $"Last result: {lastVoteResult}",
+            $"Last yes percent: {lastVotePercentage:0.##}%"
+        };
+    }
+
+    public string ResetVoteState()
+    {
+        EndVote("reset", 0f);
+        lastVoteName = null;
+        lastVoteResult = "none";
+        lastVotePercentage = 0f;
+        return "Vote state reset.";
+    }
+
     private void EvaluateVote(DateTime now)
     {
         if (voteName == null || now < voteEndsAt)
@@ -456,12 +525,21 @@ public sealed class AutoCommandExecutor
         if (command != null && ratio >= required)
         {
             Announce($"Vote '{finished}' passed ({yes}/{total}).", null);
+            lastVoteName = finished;
+            lastVoteResult = "passed";
+            lastVotePercentage = ratio * 100f;
             RunByName(finished);
         }
         else
         {
             Announce($"Vote '{finished}' failed ({yes}/{total}).", null);
+            lastVoteName = finished;
+            lastVoteResult = "failed";
+            lastVotePercentage = ratio * 100f;
         }
+
+        voteYes.Clear();
+        voteNo.Clear();
     }
 
     private AutoCommand? FindVoteCommand(string name)
@@ -477,6 +555,19 @@ public sealed class AutoCommandExecutor
         }
 
         return null;
+    }
+
+    private void EndVote(string result, float percentage)
+    {
+        if (voteName != null)
+            lastVoteName = voteName;
+
+        voteName = null;
+        voteEndsAt = default;
+        voteYes.Clear();
+        voteNo.Clear();
+        lastVoteResult = result;
+        lastVotePercentage = percentage;
     }
 
     // ----- Helpers --------------------------------------------------------
