@@ -165,7 +165,9 @@ commands require running the same command again within 30 seconds to confirm.
 Find, stop, delete and power-toggle entities, plus common grid administration.
 `entities delete` and `grids static large` require running the same command again
 within 30 seconds to confirm. `[gridName]` defaults to the grid the caller is
-looking at where supported.
+looking at where supported. For `protect`, `-allowDamage` leaves block damage
+enabled and `-allowEdit` leaves building/removal enabled; using both is equivalent
+to `unprotect`.
 
 | Command                                     | Permission  | Description                                                                                                |
 | ------------------------------------------- | ----------- | ---------------------------------------------------------------------------------------------------------- |
@@ -186,6 +188,8 @@ looking at where supported.
 | `!ess admin makeship [gridName]`            | Admin       | Convert a named or looked-at physical grid group to ships.                                                 |
 | `!ess admin makestation [gridName]`         | Admin       | Convert a named or looked-at physical grid group to stations.                                              |
 | `!ess admin rename <gridName> <newName>`    | Admin       | Rename a grid without ownership checks.                                                                    |
+| `!ess protect [gridName] [-allowDamage] [-allowEdit]` | SpaceMaster | Protect a named or looked-at mechanical grid group. By default, damage and editing are blocked.            |
+| `!ess unprotect [gridName]`                 | SpaceMaster | Allow damage and editing again on a named or looked-at mechanical grid group.                              |
 | `!ess convert`                              | None        | Toggle the looked-at owned/faction-accessible grid group between ship and station outside natural gravity. |
 | `!ess gridtype [gridName]`                  | None        | Report whether target grids are ships or stations.                                                         |
 
