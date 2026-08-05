@@ -21,7 +21,7 @@ See [Docs/](Docs/README.md) for the full documentation and the
 
 ## Command Coverage
 
-Essentials currently exposes **158** `!ess` chat commands. The complete command
+Essentials currently exposes **160** `!ess` chat commands. The complete command
 reference lives in [Docs/Commands.md](Docs/Commands.md); the main groups are:
 
 - **Admin/player QoL** — MOTD, stats, player count, player list, promote level,
@@ -41,7 +41,8 @@ reference lives in [Docs/Commands.md](Docs/Commands.md); the main groups are:
   reset one planet, reset area and reset GPS area.
 - **Entities & grids** — entity find/refresh/stop/delete/kill/power/eject, grid
   list/export/import/ejectall/stopall/static-large, plus `admin makeship`,
-  `admin makestation`, `admin rename`, `convert` and `gridtype`.
+  `admin makestation`, `admin rename`, `protect`, `unprotect`, `convert` and
+  `gridtype`.
 - **Safe zones, GPS & NPC stations** — `zone`, `ez hide`, `ez show`,
   `ez delete`, `place station`, `fixallstations`, `fixstation`, `isecon` and
   `sywavefix`. Destructive station cleanup commands require confirmation.
