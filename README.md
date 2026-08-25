@@ -13,7 +13,7 @@ common quality-of-life server behaviour, configured through the Magnetar
   commands and warning sequences.
 - **MOTD** — connect messages and a Steam-overlay URL, with first-time variants.
 - **Ship fixer** — cut/paste a grid to clear physics issues, with cooldowns.
-- **Blocks, economy, PCU/ownership transfer, cleanup, grid conversion,
+- **Blocks, economy, PCU/ownership transfer, Stone cleanup, grid conversion,
   safezone, GPS and station maintenance** utilities.
 
 See [Docs/](Docs/README.md) for the full documentation and the
@@ -21,8 +21,9 @@ See [Docs/](Docs/README.md) for the full documentation and the
 
 ## Command Coverage
 
-Essentials currently exposes **160** `!ess` chat commands. The complete command
-reference lives in [Docs/Commands.md](Docs/Commands.md); the main groups are:
+Essentials currently exposes **160** `!ess` chat commands plus the legacy
+top-level `!stone` command. The complete command reference lives in
+[Docs/Commands.md](Docs/Commands.md); the main groups are:
 
 - **Admin/player QoL** — MOTD, stats, player count, player list, promote level,
   reserved slots, item give, kick/ban/unban, teleport, mute/unmute and private

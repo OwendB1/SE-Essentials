@@ -72,7 +72,8 @@ public class Plugin : IPlugin, ICommonPlugin
 
         ServerCommands.Register(
             Assembly.GetExecutingAssembly(),
-            typeof(EssentialsModule));
+            typeof(EssentialsModule),
+            typeof(StoneCommand));
 
         AutoCommands = new AutoCommandExecutor(config.Data, Log);
         ServerControl.Terminating += OnTerminating;

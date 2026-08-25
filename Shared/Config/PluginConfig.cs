@@ -51,6 +51,9 @@ public class PluginConfig : PluginSdk.Config.PluginConfig, IPluginConfig
     [BoolOption("Show GPS markers for owned-grid list output.", Parent = "grid")]
     public bool MarkerShowPosition { get; set => SetField(ref field, value); }
 
+    [IntOption(0, int.MaxValue, "Player !stone cooldown in seconds.", Parent = "grid")]
+    public int StoneCooldownInSeconds { get; set => SetField(ref field, value); } = 10 * 60;
+
     [BoolOption("Allow players to save and teleport to home locations.", Parent = "homes-core")]
     public bool HomesEnabled { get; set => SetField(ref field, value); } = true;
 

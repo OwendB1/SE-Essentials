@@ -1,8 +1,9 @@
 # Chat Commands
 
-All Essentials commands live under the **`!ess`** prefix and are typed in the
-global chat (or run from the server console). The host suppresses recognised
-command lines from normal chat.
+Most Essentials commands live under the **`!ess`** prefix and are typed in the
+global chat (or run from the server console). The player-only `!stone` command
+keeps its legacy top-level name. The host suppresses recognised command lines
+from normal chat.
 
 - `!ess` — overview of available commands.
 - `!ess help` — list commands; `!ess help <command>` shows usage for one.
@@ -192,6 +193,7 @@ to `unprotect`.
 | `!ess unprotect [gridName]`                 | SpaceMaster | Allow damage and editing again on a named or looked-at mechanical grid group.                              |
 | `!ess convert`                              | None        | Toggle the looked-at owned/faction-accessible grid group between ship and station outside natural gravity. |
 | `!ess gridtype [gridName]`                  | None        | Report whether target grids are ships or stations.                                                         |
+| `!stone [outputCount]`                      | None        | Delete Stone ore from inventories on the controlled grid or looked-at owned/faction grid group.            |
 
 ## Safe zones, GPS & economy stations
 
